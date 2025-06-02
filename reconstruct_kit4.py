@@ -5,7 +5,7 @@ from scipy.io import loadmat
 from dolfinx.fem import Function
 from PIL import Image 
 
-from src import GaussNewtonSolverTV, EIT
+from src import GaussNewtonSolverTV, EIT, transform_data
 
 
 device = "cuda"
@@ -26,25 +26,8 @@ B = data["MeasPattern"].T
 Injref = data["CurrentPattern"].T
 Uel = data["Uel"].T
 
-Bf = np.vstack([B, np.ones(B.shape[-1])])
-
-U = []
-U_background = []
-for i in range(Uel.shape[0]):
-    exU = np.hstack([Uel[i, :], np.array([0])])
-    U_sol, res, _, _ = np.linalg.lstsq(Bf, np.hstack([Uel[i, :], np.array([0])]))
-    U.append(U_sol)
-
-    U_sol, res, _, _ = np.linalg.lstsq(
-        Bf, np.hstack([Uel_background[i, :], np.array([0])])
-    )
-    U_background.append(U_sol)
-
-
-Uel = np.stack(U)
-Uel_background = np.stack(U_background)
-
-print("Uel shape: ", Uel.shape)
+Uel = transform_data(Uel, B)
+Uel_background = transform_data(Uel_background, B)
 
 z = 1e-6*np.ones(L)
 solver = EIT(L, Injref, z, mesh_name="mesh_8_4.msh")

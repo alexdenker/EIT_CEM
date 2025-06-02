@@ -34,3 +34,24 @@ def interpolate_mesh_to_mesh(x, mesh_pos1, mesh_pos2):
 
     return sigma
 
+
+def transform_data(U, MeasPat):
+    """
+    This method transform the the measured data by the KIT4 system (differences between neighbouring electrodes)
+    to our format (potential at each electrode)
+    
+    U: Measurements in KIT4 format
+    MeasPat: Measurement pattern 
+
+    """
+
+    Bf = np.vstack([MeasPat, np.ones(MeasPat.shape[-1])])
+
+    U_ = []
+    for i in range(U.shape[0]):
+        U_sol, res, _, _ = np.linalg.lstsq(Bf, np.hstack([U[i, :], np.array([0])]))
+        U_.append(U_sol)
+
+    Uel = np.stack(U_)
+
+    return Uel
