@@ -36,14 +36,7 @@ The goal in EIT is to recover the conductivity distribution $\sigma$ from a set 
 
 > Recover $\sigma$ from measurements $U^{(k)}$ with $F(\sigma)I^{(k)} = U^{(k)}$ for current patterns $I^{(k)}, k=1,\dots, K$
 
-There exist a variety of methods to solve this inverse problem. This repository will contain different reconstruction methods: 
-
-1. Linearised Reconstruction, see e.g. [Kaipio et al. (2000)](https://iopscience.iop.org/article/10.1088/0266-5611/16/5/321)
-2. Gauss-Newton Methods, see e.g. [Borsic et al. (2010)](https://pubmed.ncbi.nlm.nih.gov/20051330/)
-3. L1-Sparsity, see e.g. [Gehre et al. (2012)](https://www.sciencedirect.com/science/article/pii/S0377042711005140)
-
-In addition, data-driven methods will be added at a later point.
-
+There exist a variety of methods to solve this inverse problem. This repository will contain an implementation of the Gauss-Newton Method with a (smoothed) TV regularisation, see e.g. [Borsic et al. (2010)](https://pubmed.ncbi.nlm.nih.gov/20051330/).
 
 ## Installation 
 
